@@ -1,7 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {View, FlatList, Text} from 'react-native';
 import {ListContext} from '../../contexts/ListContext';
-import CreateTransactionButton from './CreateTransactionButton';
 import ListItem from './ListItem';
 import AddEditItem from './AddEditItem';
 
@@ -22,7 +21,6 @@ export default function List() {
         )}
       />
       <Text>Total price: {totalPrice}</Text>
-      <CreateTransactionButton />
     </View>
   );
 }
