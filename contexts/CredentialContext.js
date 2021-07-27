@@ -1,9 +1,7 @@
-import React, {createContext, useEffect, useState} from 'react';
-import {login as flogin} from './actions/security';
-import {login as alogin} from './actions/security-storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import React, {createContext, useMemo, useState} from 'react';
+import base64 from 'react-native-base64';
 export const CredentialContext = createContext();
+
 //CredentialContext.Provider;
 //   Permet de diffuser la data du context dans tous les composants enfants de celui-ci
 
@@ -11,28 +9,35 @@ export const CredentialContext = createContext();
 //    Permet de récupérer la data du context associé et définit dans le provider le plus proche
 
 export default function CredentialProvider({children}) {
-  const [token, setToken] = useState();
-
-  useEffect(
-    () =>
-      setTimeout(
-        () => AsyncStorage.getItem('jwt_token').then(token => setToken(token)),
-        1,
-      ),
-    [],
+  const [credential, setCredential] = useState(
+    JSON.parse(/*localStorage.getItem('credential') ||*/ 'null'),
   );
 
-  const login = (username, password) => {
-    flogin(username, password).then(token => {
-      AsyncStorage.setItem('jwt_token', token).then(() => setToken(token));
+  const save = (clientId, clientSecret) => {
+    localStorage.setItem(
+      'credential',
+      JSON.stringify({
+        clientId,
+        clientSecret,
+      }),
+    );
+    setCredential({
+      clientId,
+      clientSecret,
     });
   };
 
-  const logout = () =>
-    AsyncStorage.removeItem('jwt_token').then(() => setToken(null));
+  // btoa = base64(username:password)
+  const token = useMemo(
+    () =>
+      credential &&
+      base64.encode(`${credential.clientId}:${credential.clientSecret}`),
+    [credential],
+  );
 
   return (
-    <CredentialContext.Provider value={{token, login, logout}}>
+    <CredentialContext.Provider
+      value={{decodedCredential: credential, token, save}}>
       {children}
     </CredentialContext.Provider>
   );

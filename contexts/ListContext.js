@@ -1,5 +1,15 @@
-import React, {createContext, useCallback, useEffect, useState} from 'react';
-import {getCodes, deleteCode, editCode, addCode} from './actions/codes';
+import React, {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+
+const data = [
+  {id: 1, name: 'forks', unitPrice: 1, quantity: 2},
+  {id: 2, name: 'knifes', unitPrice: 2, quantity: 2},
+];
 
 export const ListContext = createContext();
 
@@ -9,38 +19,39 @@ export default function ListProvider({children}) {
   useEffect(() => {
     //fetch
     //.then(data =>
-    getCodes().then(codes => setList(codes));
+    setList(data);
   }, []);
 
   const deleteElement = useCallback(
     item => {
-      deleteCode(item).then(() =>
-        setList(list.filter(_item => _item._id !== item._id)),
-      );
+      setList(list.filter(_item => _item.id !== item.id));
     },
     [list],
   );
 
   const editElement = useCallback(
     values => {
-      editCode(values).then(item =>
-        setList(list.map(it => (it._id === item._id ? item : it))),
-      );
+      setList(list.map(it => (it.id === values.id ? values : it)));
     },
     [list],
   );
 
   const addElement = useCallback(
     values => {
-      addCode(values).then(item => setList([...list, item]));
+      setList([...list, {id: Date.now(), ...values}]);
     },
     [list],
   );
 
   const getItem = useCallback(
     id => {
-      return list.find(it => it._id === id);
+      return list.find(it => it.id === id);
     },
+    [list],
+  );
+
+  const totalPrice = useMemo(
+    () => list.reduce((acc, item) => acc + item.unitPrice * item.quantity, 0),
     [list],
   );
 
@@ -51,6 +62,7 @@ export default function ListProvider({children}) {
         deleteElement,
         editElement,
         addElement,
+        totalPrice,
         getItem,
         isReady: list !== undefined,
       }}>

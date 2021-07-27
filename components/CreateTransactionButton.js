@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {ListContext} from '../contexts/ListContext';
-import {Button} from 'react-native-paper';
+import Button from './lib/Button';
 import {CredentialContext} from '../contexts/CredentialContext';
 
 export default function CreateTransactionButton() {
@@ -43,6 +43,6 @@ export default function CreateTransactionButton() {
   };
 
   return (
-    <Button onPress={() => createTransaction()}>create Transaction</Button>
+    <Button title="create Transaction" onClick={() => createTransaction()} />
   );
 }

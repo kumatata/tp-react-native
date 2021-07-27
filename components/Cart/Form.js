@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {Button, TextInput} from 'react-native-paper';
-import {TouchableHighlight, Text, View} from 'react-native';
+import Button from '../lib/Button';
+import {TouchableHighlight, Text, View, TextInput} from 'react-native';
 const defaultV = {
-  _id: '',
-  message: 0,
-  description: 0,
+  name: '',
+  quantity: 0,
+  unitPrice: 0,
 };
 
 export default function Form({onSubmit, item}) {
@@ -28,25 +28,19 @@ export default function Form({onSubmit, item}) {
 
   return (
     <View>
+      <TextInput onChangeText={handleChange('name')} value={values.name} />
       <TextInput
-        label="Code"
-        onChangeText={handleChange('_id')}
-        value={values._id}
+        onChangeText={handleChange('quantity')}
+        value={values.quantity}
       />
       <TextInput
-        label="Message"
-        onChangeText={handleChange('message')}
-        value={values.message}
-      />
-      <TextInput
-        label="description"
-        onChangeText={handleChange('description')}
-        value={values.description}
+        onChangeText={handleChange('unitPrice')}
+        value={values.unitPrice}
       />
       <TouchableHighlight onClick={e => _onSubmit()}>
         <Text>Submit</Text>
       </TouchableHighlight>
-      <Button onPress={_onSubmit}>Submit Form</Button>
+      <Button title="Submit Form" onClick={_onSubmit} />
     </View>
   );
 }

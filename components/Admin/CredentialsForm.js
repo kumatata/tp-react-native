@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {Button, TextInput} from 'react-native-paper';
-import {View} from 'react-native';
+import Button from '../lib/Button';
+import {View, TextInput} from 'react-native';
 
 const defaultV = {
   clientId: '',
@@ -24,22 +24,18 @@ export default function CredentialsForm({onSubmit, defaultValues}) {
   return (
     <View>
       <TextInput
-      label="username"
         onChangeText={value =>
-          handleChange({target: {value, name: 'username'}})
+          handleChange({target: {value, name: 'clientId'}})
         }
-        value={values.username}
+        value={values.clientId}
       />
       <TextInput
-      label="password"
         onChangeText={value =>
-          handleChange({target: {value, name: 'password'}})
+          handleChange({target: {value, name: 'clientSecret'}})
         }
-        value={values.password}
+        value={values.clientSecret}
       />
-      <Button mode="contained" onPress={_onSubmit}>
-        Submit Form
-      </Button>
+      <Button title="Submit Form" onClick={_onSubmit} />
     </View>
   );
 }
