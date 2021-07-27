@@ -1,70 +1,79 @@
 import React, {
   createContext,
-  useCallback,
+  useState,
   useEffect,
   useMemo,
-  useState,
+  useCallback,
 } from 'react';
 
 const data = [
-  {id: 1, name: 'forks', unitPrice: 1, quantity: 2},
-  {id: 2, name: 'knifes', unitPrice: 2, quantity: 2},
+  {id: 1, name: 'plate', unitPrice: 1, quantity: 3},
+  {id: 2, name: 'spoon', unitPrice: 1, quantity: 3},
 ];
 
 export const ListContext = createContext();
 
 export default function ListProvider({children}) {
-  const [list, setList] = useState();
+  const [list, setList] = useState([]);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    //fetch
+    //fetch()
     //.then(data =>
     setList(data);
+    setReady(true);
+    //);
   }, []);
 
+  const totalPrice = useMemo(
+    () => list.reduce((acc, item) => acc + item.quantity * item.unitPrice, 0),
+    [list],
+  );
+
+  const addElement = useCallback(
+    async item => {
+      //localStorage.set("list", JSON.stringify([...list, item]))
+      setList([...list, item]);
+      //)
+    },
+    [list],
+  );
+
   const deleteElement = useCallback(
-    item => {
-      setList(list.filter(_item => _item.id !== item.id));
+    async item => {
+      //localStorage.set("list", JSON.stringify([...list, item]))
+      setList(list.filter(_it => _it.id !== item.id));
+      //)
     },
     [list],
   );
 
   const editElement = useCallback(
-    values => {
-      setList(list.map(it => (it.id === values.id ? values : it)));
-    },
-    [list],
-  );
-
-  const addElement = useCallback(
-    values => {
-      setList([...list, {id: Date.now(), ...values}]);
+    async item => {
+      //localStorage.set("list", JSON.stringify([...list, item]))
+      setList(list.map(_it => (_it.id !== item.id ? _it : item)));
+      //)
     },
     [list],
   );
 
   const getItem = useCallback(
     id => {
-      return list.find(it => it.id === id);
+      return list.find(_it => _it.id === id);
     },
-    [list],
-  );
-
-  const totalPrice = useMemo(
-    () => list.reduce((acc, item) => acc + item.unitPrice * item.quantity, 0),
     [list],
   );
 
   return (
     <ListContext.Provider
       value={{
-        list: list ?? [],
+        list,
+        totalPrice,
+        addElement,
         deleteElement,
         editElement,
-        addElement,
-        totalPrice,
         getItem,
-        isReady: list !== undefined,
+        isReady: ready,
       }}>
       {children}
     </ListContext.Provider>

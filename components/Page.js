@@ -1,13 +1,14 @@
 import React from 'react';
-import Header from './Header';
 import Body from './Body';
+import Header from './Header';
+import {View} from 'react-native';
 
 function Page() {
   return (
-    <>
+    <View>
       <Header />
       <Body />
-    </>
+    </View>
   );
 }
 

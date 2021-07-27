@@ -1,36 +1,30 @@
-import React from 'react';
-import Button from './components/lib/Button';
+import ButtonGroup from './components/ButtonGroup';
 import Page from './components/Page';
-import Header from './components/Header';
-import ShowItem from './components/Cart/ShowItem';
-import Credentials from './components/Admin/Credentials';
-import CredentialProvider from './contexts/CredentialContext';
 import ListProvider from './contexts/ListContext';
+import React, {useState} from 'react';
+import Button from './components/lib/Button';
+import CredentialsProvider from './contexts/CredentialContext';
 import ThemeProvider from './contexts/ThemeContext';
-import {View} from 'react-native';
+import {View, Text} from 'react-native';
 
 function App() {
+  const [page, setPage] = useState(0);
   return (
     <ThemeProvider>
-      <View>
-        <Button onClick={() => console.log('foo')} title="foo" />
-        <Button onClick={event => console.log('hello')} title="hello" />
-        <Button
-          onClick={event => console.log(event)}
-          title={true}
-          variant="rounded"
-        />
-        <Button onClick={event => console.log('clicked')} title={10} />
-        <CredentialProvider>
-          <Header />
-          <Credentials />
-          <ListProvider>
-            <Page />
-            <Header />
-            <ShowItem />
-          </ListProvider>
-        </CredentialProvider>
-      </View>
+      <CredentialsProvider>
+        <View>
+          <View>
+            <ButtonGroup />
+            <Button
+              title="Change Page"
+              onClick={() => setPage((page + 1) % 3)}
+            />
+            <ListProvider>
+              <Page />
+            </ListProvider>
+          </View>
+        </View>
+      </CredentialsProvider>
     </ThemeProvider>
   );
 }

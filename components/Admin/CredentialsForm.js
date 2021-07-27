@@ -1,19 +1,18 @@
 import React, {useState} from 'react';
 import Button from '../lib/Button';
-import {View, TextInput} from 'react-native';
 
-const defaultV = {
-  clientId: '',
-  clientSecret: '',
-};
+export default function CredentialsForm({onSubmit, selectedValue}) {
+  const [values, setValues] = useState(
+    selectedValue ?? {
+      clientId: '',
+      clientSecret: '',
+    },
+  );
 
-export default function CredentialsForm({onSubmit, defaultValues}) {
-  const [values, setValues] = useState(defaultValues || defaultV);
-
-  const _onSubmit = () => {
-    onSubmit({...values});
+  const _onSubmit = event => {
+    event.preventDefault();
+    if (selectedValue) onSubmit(values);
   };
-
   const handleChange = event => {
     setValues({
       ...values,
@@ -22,20 +21,15 @@ export default function CredentialsForm({onSubmit, defaultValues}) {
   };
 
   return (
-    <View>
-      <TextInput
-        onChangeText={value =>
-          handleChange({target: {value, name: 'clientId'}})
-        }
-        value={values.clientId}
-      />
-      <TextInput
-        onChangeText={value =>
-          handleChange({target: {value, name: 'clientSecret'}})
-        }
+    <form onSubmit={_onSubmit}>
+      <input value={values.clientId} onChange={handleChange} name="clientId" />
+      <input
         value={values.clientSecret}
+        onChange={handleChange}
+        name="clientSecret"
+        type="password"
       />
-      <Button title="Submit Form" onClick={_onSubmit} />
-    </View>
+      <Button title="Submit" />
+    </form>
   );
 }

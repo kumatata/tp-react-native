@@ -1,36 +1,20 @@
-import React, {useEffect} from 'react';
+import React, {useContext} from 'react';
+import {ThemeContext} from '../../contexts/ThemeContext';
 import {
   Modal as RNModal,
   View,
+  StyleSheet,
   Text,
   Pressable,
-  StyleSheet,
 } from 'react-native';
 
-export default function Modal({title, children, open, onClose}) {
-  useEffect(() => {
-    console.log('open updated', open);
-
-    return () => {
-      console.log('willUpdate', open);
-    };
-  }, [open]);
-
-  useEffect(() => {
-    console.log('title updated', title);
-
-    return () => {
-      console.log('willUpdate', title);
-    };
-  }, [title]);
-
-  useEffect(() => {
-    console.log('did mount');
-
-    return () => {
-      console.log('willUnmount');
-    };
-  }, []);
+function Modal({title, open, onClose, children}) {
+  const {theme} = useContext(ThemeContext);
+  const styleModal = {
+    backgroundColor: theme === 'dark' ? 'black' : 'white',
+    borderColor: theme === 'dark' ? 'white' : 'black',
+    color: theme === 'dark' ? 'white' : 'black',
+  };
 
   return (
     <RNModal
@@ -44,7 +28,7 @@ export default function Modal({title, children, open, onClose}) {
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={onClose}>
-            <Text style={styles.textStyle}>Close</Text>
+            <Text style={styles.textStyle}>CLOSE</Text>
           </Pressable>
           <View>{children}</View>
         </View>
@@ -96,3 +80,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export default Modal;

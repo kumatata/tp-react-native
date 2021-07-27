@@ -2,21 +2,19 @@ import React, {createContext, useState} from 'react';
 
 export const ThemeContext = createContext('light');
 
-//ThemeContext.Provider;
-//   Permet de diffuser la data du context dans tous les composants enfants de celui-ci
-
-//ThemeContext.Consumer;
-//    Permet de récupérer la data du context associé et définit dans le provider le plus proche
+//+ThemeContext.Provider
+//    Composant qui va permettre de diffuser n'importe quel type de data dans ses sous-composants
+//ThemeContext.Consumer
+//    Composant qui va permettre de récuperer n'importe quel type de data venant du premier parent Provider trouvé
 
 export default function ThemeProvider({children}) {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState({theme: 'dark'});
 
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'ligth' : 'dark');
-  };
+  const toggleTheme = () =>
+    setTheme({...theme, theme: theme.theme === 'dark' ? 'light' : 'dark'});
 
   return (
-    <ThemeContext.Provider value={{theme, toggleTheme}}>
+    <ThemeContext.Provider value={{theme: theme.theme, toggleTheme}}>
       {children}
     </ThemeContext.Provider>
   );

@@ -1,30 +1,40 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import List from './Cart/List';
+import ItemShow from './ItemShow';
 import Button from './lib/Button';
 import Modal from './lib/Modal';
-import {View, Text} from 'react-native';
-
-const elem = [];
-const item = {deleteable: false};
+import CreateTransactionButton from './CreateTransactionButton';
 
 function Body() {
-  const [visible, setVisible] = useState(false);
   const [modal, setModal] = useState(false);
 
+  useEffect(() => {
+    console.log('modal updated', modal);
+    return () => {
+      console.log('will Update', modal);
+    };
+  }, [modal]);
+
+  useEffect(() => {
+    console.log('modal updated', modal);
+    return () => {
+      console.log('will Update', modal);
+    };
+  }, [modal]);
+
+  useEffect(() => {
+    console.log('did mount');
+    return () => {
+      console.log('will unmount');
+    };
+  }, []);
+
   return (
-    <View>
-      <Button title="Body button" />
-      <Button onClick={() => setVisible(!visible)} title="Display More" />
-      {visible && <Text>Visible content</Text>}
-      {!visible && <Text>Hidden content</Text>}
-      <Button onClick={() => setModal(!modal)} title="Open modal" />
-      <Modal title="Ma modal" open={modal} onClose={() => setModal(false)}>
-        <Text>Ma description</Text>
-        <Text>Google</Text>
-        <Button title="test" />
-      </Modal>
+    <>
+      <ItemShow />
       <List />
-    </View>
+      <CreateTransactionButton />
+    </>
   );
 }
 

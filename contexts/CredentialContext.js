@@ -1,43 +1,46 @@
-import React, {createContext, useMemo, useState} from 'react';
+import React, {createContext, useState, useEffect} from 'react';
 import base64 from 'react-native-base64';
+
+const data = [
+  {id: 1, name: 'plate', unitPrice: 1, quantity: 3},
+  {id: 2, name: 'spoon', unitPrice: 1, quantity: 3},
+];
+
 export const CredentialContext = createContext();
 
-//CredentialContext.Provider;
-//   Permet de diffuser la data du context dans tous les composants enfants de celui-ci
+export default function CredentialsProvider({children}) {
+  const [credentials, setCredentials] = useState({
+    clientID: '',
+    clientSecret: '',
+  });
 
-//CredentialContext.Consumer;
-//    Permet de récupérer la data du context associé et définit dans le provider le plus proche
+  useEffect(() => {
+    //const value = localStorage.getItem('credentials');
+    //if (value) {
+    //  setCredentials(JSON.parse(value));
+    //}
+  }, []);
 
-export default function CredentialProvider({children}) {
-  const [credential, setCredential] = useState(
-    JSON.parse(/*localStorage.getItem('credential') ||*/ 'null'),
+  // token = base64("username:password")
+  const token = base64.encode(
+    `${credentials.clientID}:${credentials.clientSecret}`,
   );
 
-  const save = (clientId, clientSecret) => {
+  const save = async (clientID, clientSecret) => {
     localStorage.setItem(
-      'credential',
-      JSON.stringify({
-        clientId,
-        clientSecret,
-      }),
+      'credentials',
+      JSON.stringify({clientID, clientSecret}),
     );
-    setCredential({
-      clientId,
-      clientSecret,
-    });
+    setCredentials({clientID, clientSecret});
   };
-
-  // btoa = base64(username:password)
-  const token = useMemo(
-    () =>
-      credential &&
-      base64.encode(`${credential.clientId}:${credential.clientSecret}`),
-    [credential],
-  );
 
   return (
     <CredentialContext.Provider
-      value={{decodedCredential: credential, token, save}}>
+      value={{
+        decodedCredentials: credentials,
+        token,
+        save,
+      }}>
       {children}
     </CredentialContext.Provider>
   );

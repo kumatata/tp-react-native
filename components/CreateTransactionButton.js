@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
+import {CredentialContext} from '../contexts/CredentialContext';
 import {ListContext} from '../contexts/ListContext';
 import Button from './lib/Button';
-import {CredentialContext} from '../contexts/CredentialContext';
 
 export default function CreateTransactionButton() {
   const {list, totalPrice} = useContext(ListContext);
@@ -9,22 +9,22 @@ export default function CreateTransactionButton() {
 
   const createTransaction = () => {
     const data = {
+      cart: list,
+      totalPrice,
+      currency: 'EUR',
       consumer: {
         lastname: 'Foo',
         firstname: 'Bart',
       },
-      billingAddress: {
+      shippingAddress: {
         address: '1 rue Bouvier',
-        zipCode: '75011',
+        zipCode: 75011,
         city: 'Paris',
         country: 'France',
       },
-      cart: list,
-      totalPrice,
-      currency: 'EUR',
-      shippingAddress: {
+      billingAddress: {
         address: '1 rue Bouvier',
-        zipCode: '75011',
+        zipCode: 75011,
         city: 'Paris',
         country: 'France',
       },
@@ -33,16 +33,16 @@ export default function CreateTransactionButton() {
     fetch('http://localhost:3001/transactions', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + token,
+        Authorization: 'BASIC ' + token, // base64("username:password")
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(data),
     })
-      .then(res => res.json())
+      .then(response => response.json())
       .then(data => console.log(data));
   };
 
   return (
-    <Button title="create Transaction" onClick={() => createTransaction()} />
+    <Button title="createTransaction" onClick={() => createTransaction()} />
   );
 }

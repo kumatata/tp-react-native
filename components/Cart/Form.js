@@ -1,46 +1,71 @@
 import React, {useState} from 'react';
 import Button from '../lib/Button';
-import {TouchableHighlight, Text, View, TextInput} from 'react-native';
-const defaultV = {
-  name: '',
-  quantity: 0,
-  unitPrice: 0,
-};
+import {View, TextInput} from 'react-native';
 
-export default function Form({onSubmit, item}) {
-  const [values, setValues] = useState(item || defaultV);
+export default function Form({onSubmit, selectedValue}) {
+  const [values, setValues] = useState(
+    selectedValue === true
+      ? {
+          name: '',
+          quantity: 0,
+          unitPrice: 0,
+        }
+      : selectedValue,
+  );
 
-  const _onSubmit = () => {
-    onSubmit({...values});
+  const _onSubmit = event => {
+    event.preventDefault();
+    // Vanilla JS approch
+    //const newData = new FormData(event.target);
+    //const values = newData.entries.reduce((acc, [key, value]) => {
+    //  acc[key] = value;
+    //  return acc;
+    //}, {});
+    if (selectedValue) onSubmit(values);
   };
-
-  // Handle Change génère une fonction listener
-  // qui se souviendra de la valeur de la variable name par le phénomène de Closure
-  // Ex: handleChange('foo') génère une fonction équivalente à :
-  //  (value) => setValues({...values, 'foo': value})
-
-  const handleChange = name => value => {
+  const handleChange = event => {
     setValues({
       ...values,
-      [name]: value,
+      [event.target.name]: event.target.value,
     });
   };
 
   return (
-    <View>
-      <TextInput onChangeText={handleChange('name')} value={values.name} />
+    <View onSubmit={_onSubmit}>
       <TextInput
-        onChangeText={handleChange('quantity')}
-        value={values.quantity}
+        onChangeText={value =>
+          handleChange({
+            target: {
+              name: 'name',
+              value,
+            },
+          })
+        }
+        value={values.name}
       />
       <TextInput
-        onChangeText={handleChange('unitPrice')}
+        onChangeText={value =>
+          handleChange({
+            target: {
+              name: 'unitPrice',
+              value,
+            },
+          })
+        }
         value={values.unitPrice}
       />
-      <TouchableHighlight onClick={e => _onSubmit()}>
-        <Text>Submit</Text>
-      </TouchableHighlight>
-      <Button title="Submit Form" onClick={_onSubmit} />
+      <TextInput
+        onChangeText={value =>
+          handleChange({
+            target: {
+              name: 'quantity',
+              value,
+            },
+          })
+        }
+        value={values.quantity}
+      />
+      <Button title="Submit" onClick={_onSubmit} />
     </View>
   );
 }

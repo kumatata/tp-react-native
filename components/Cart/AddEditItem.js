@@ -1,32 +1,32 @@
-import React, { useContext, useState, useEffect } from "react";
-import { ListContext } from "../../contexts/ListContext";
-import Button from "../lib/Button";
-import Modal from "../lib/Modal";
-import Form from "./Form";
+import React, {useContext, useEffect, useState} from 'react';
+import Button from '../lib/Button';
+import Modal from '../lib/Modal';
+import Form from './Form';
+import {ListContext} from '../../contexts/ListContext';
+import {View} from 'react-native';
 
-export default function AddEditItem({ selectedItem = false }) {
-  const { editElement, addElement } = useContext(ListContext);
+export default function AddEditItem({theme, item = false}) {
+  const [modal, setModal] = useState(item);
+  const {addElement, editElement} = useContext(ListContext);
 
-  const [modal, setModal] = useState(selectedItem);
+  useEffect(() => {
+    setModal(item);
+  }, [item]);
 
-  useEffect(() => setModal(selectedItem), [selectedItem]);
-
-  const handleSubmit = (values) => {
-    if (modal === true) addElement(values);
-    else editElement(values);
-    setModal(false);
+  const onSubmit = values => {
+    if (modal === true) {
+      addElement({id: Date.now(), ...values});
+    } else {
+      editElement(values);
+    }
   };
 
   return (
-    <>
-      <Button title="add" onClick={() => setModal(true)} />
-      <Modal
-        title="Add product"
-        open={Boolean(modal)}
-        onClose={() => setModal(false)}
-      >
-        <Form onSubmit={handleSubmit} item={modal !== true && modal} />
+    <View>
+      <Button title="add product" onClick={() => setModal(true)} />
+      <Modal title="Add Product" open={modal} onClose={() => setModal(false)}>
+        <Form onSubmit={onSubmit} selectedValue={modal} />
       </Modal>
-    </>
+    </View>
   );
 }

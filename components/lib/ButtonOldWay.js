@@ -1,20 +1,34 @@
 import React from 'react';
 import {ThemeContext} from '../../contexts/ThemeContext';
 import {Button as RNButton} from 'react-native';
+function Button({variant = 'default', title, size = 20, theme: _, onClick}) {
+  const style = {textTransform: 'uppercase'};
 
-function Button({title, variant, theme, onClick}) {
-  const style = {};
-  if (variant === 'rounded') style.borderRadius = '50%';
+  if (['rounded', 'icon'].includes(variant)) {
+    style.borderRadius = '50%';
+  }
+
+  if (variant === 'icon') {
+    style.width = size;
+    style.height = style.width;
+    style.maxHeight = style.width;
+    style.maxWith = style.width;
+    style.minHeight = style.width;
+    style.minWith = style.width;
+  }
+
   return (
     <ThemeContext.Consumer>
       {({theme}) => {
-        style.color = theme === 'dark' ? 'white' : 'black';
-        style.backgroundColor = theme === 'dark' ? 'black' : 'white';
         return (
           <RNButton
+            style={{
+              ...style,
+              color: theme === 'dark' ? 'white' : 'black',
+            }}
+            color={theme !== 'dark' ? 'white' : 'black'}
             onPress={onClick}
-            title={title.toString()}
-            color={theme === 'dark' ? 'black' : 'white'}
+            title={title}
           />
         );
       }}
