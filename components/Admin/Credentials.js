@@ -1,21 +1,15 @@
-import React, {useContext, useMemo} from 'react';
-import CredentialsForm from './CredentialsForm';
-import {CredentialContext} from '../../contexts/CredentialContext';
+import CredentialsForm from "./CredentialsForm";
+import { CredentialsContext } from "../../contexts/CredentialsContext";
+import React, { useContext } from "react";
 
 export default function Credentials() {
-  const {token, decodedCredentials, save} = useContext(CredentialContext);
-
-  const precalclatedP = useMemo(() => {
-    return <p>{decodedCredentials.clientID}</p>;
-  }, [decodedCredentials.clientID]);
-
+  const { token, save, decodedCredentials } = useContext(CredentialsContext);
   return (
     <>
       <CredentialsForm
-        onSubmit={values => save(values.clientId, values.clientSecret)}
-        selectedValue={decodedCredentials}
+        defaultValues={decodedCredentials}
+        onSubmit={(values) => save(values.clientID, values.clientSecret)}
       />
-      {precalclatedP}
       <p>{token}</p>
     </>
   );

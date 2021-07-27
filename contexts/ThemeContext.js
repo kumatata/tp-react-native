@@ -1,20 +1,23 @@
-import React, {createContext, useState} from 'react';
+import React, { createContext, useEffect, useState } from "react";
+import {useColorScheme} from "react-native";
 
-export const ThemeContext = createContext('light');
+export const ThemeContext = createContext("light");
 
-//+ThemeContext.Provider
-//    Composant qui va permettre de diffuser n'importe quel type de data dans ses sous-composants
-//ThemeContext.Consumer
-//    Composant qui va permettre de récuperer n'importe quel type de data venant du premier parent Provider trouvé
+//ThemeContext.Provider;
+//    va diffuser la data du context dans les composants enfant de celui-ci
 
-export default function ThemeProvider({children}) {
-  const [theme, setTheme] = useState({theme: 'dark'});
+//ThemeContext.Consumer;
+//    va récuperer la data envoyé par le premier Provider ascendant trouvé
+
+export default function ThemeProvider({ children }) {
+  const initialTheme = useColorScheme();
+  const [theme, setTheme] = useState({ mode: initialTheme });
 
   const toggleTheme = () =>
-    setTheme({...theme, theme: theme.theme === 'dark' ? 'light' : 'dark'});
+    setTheme({ ...theme, mode: theme.mode === "light" ? "dark" : "light" });
 
   return (
-    <ThemeContext.Provider value={{theme: theme.theme, toggleTheme}}>
+    <ThemeContext.Provider value={{ theme: theme.mode, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

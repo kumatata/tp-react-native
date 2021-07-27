@@ -1,16 +1,16 @@
 import React, {useContext} from 'react';
-import ButtonOldWay from './lib/ButtonOldWay';
 import {ThemeContext} from '../contexts/ThemeContext';
+import ButtonOldWay from './lib/ButtonOldWay';
 import {View, Text} from 'react-native';
 
 function Header() {
   const {toggleTheme} = useContext(ThemeContext);
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View>
       <Text>Website</Text>
-      <ButtonOldWay title="Toggle Theme" role="theme" onClick={toggleTheme} />
+      <ButtonOldWay title="Toggle theme" onClick={toggleTheme} />
       <Text>Home</Text>
-      <Text>Credentials</Text>
+      <Text>Admin</Text>
     </View>
   );
 }

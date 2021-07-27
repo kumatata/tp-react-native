@@ -1,31 +1,58 @@
-import ButtonGroup from './components/ButtonGroup';
-import Page from './components/Page';
-import ListProvider from './contexts/ListContext';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {SafeAreaView, StatusBar, View, Alert, Text} from 'react-native';
 import Button from './components/lib/Button';
-import CredentialsProvider from './contexts/CredentialContext';
+import Page from './components/Page';
+import Modal from './components/lib/Modal';
+import ButtonGroup from './components/ButtonGroup';
 import ThemeProvider from './contexts/ThemeContext';
-import {View, Text} from 'react-native';
+import CredentialsProvider from './contexts/CredentialsContext';
+import ListProvider from './contexts/ListContext';
+let mount = false;
 
 function App() {
-  const [page, setPage] = useState(0);
+  const [theme, setTheme] = useState('dark');
+  const [modal, setModal] = useState(false);
+
+  useEffect(() => {
+    console.log('did mount');
+    return () => {
+      console.log('will unmount');
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log('did update ' + theme);
+
+    return () => {
+      console.log('will update ' + theme);
+    };
+  }, [theme]);
+
   return (
-    <ThemeProvider>
-      <CredentialsProvider>
-        <View>
-          <View>
-            <ButtonGroup />
-            <Button
-              title="Change Page"
-              onClick={() => setPage((page + 1) % 3)}
-            />
+    <SafeAreaView>
+      <StatusBar />
+      <View>
+        <ThemeProvider>
+          <ButtonGroup />
+          <CredentialsProvider>
             <ListProvider>
               <Page />
             </ListProvider>
-          </View>
-        </View>
-      </CredentialsProvider>
-    </ThemeProvider>
+          </CredentialsProvider>
+
+          <Button onClick={() => setModal(true)} title="open modal" />
+          {modal && (
+            <Modal
+              title={'Mon titre'}
+              open={true}
+              onClose={() => Alert.prompt('Closing modal') && setModal(false)}>
+              <Text>Ma description</Text>
+              <Text>Google</Text>
+            </Modal>
+          )}
+        </ThemeProvider>
+      </View>
+    </SafeAreaView>
   );
 }
 

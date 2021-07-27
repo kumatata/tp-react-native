@@ -1,20 +1,19 @@
-import React, {useContext} from 'react';
-import {ThemeContext} from '../../contexts/ThemeContext';
+import React, {useEffect} from 'react';
 import {
-  Modal as RNModal,
   View,
-  StyleSheet,
   Text,
   Pressable,
+  Modal as RNModal,
+  StyleSheet,
 } from 'react-native';
 
-function Modal({title, open, onClose, children}) {
-  const {theme} = useContext(ThemeContext);
-  const styleModal = {
-    backgroundColor: theme === 'dark' ? 'black' : 'white',
-    borderColor: theme === 'dark' ? 'white' : 'black',
-    color: theme === 'dark' ? 'white' : 'black',
-  };
+export default function Modal({title, children, open, onClose}) {
+  useEffect(() => {
+    console.log('did mount');
+    return () => {
+      console.log('will unmount');
+    };
+  }, []);
 
   return (
     <RNModal
@@ -80,5 +79,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
-export default Modal;

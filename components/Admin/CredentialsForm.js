@@ -1,35 +1,35 @@
-import React, {useState} from 'react';
-import Button from '../lib/Button';
+import React, { useState } from "react";
+import Button from "../lib/Button";
 
-export default function CredentialsForm({onSubmit, selectedValue}) {
+export default function CredentialsForm({ onSubmit, defaultValues }) {
   const [values, setValues] = useState(
-    selectedValue ?? {
-      clientId: '',
-      clientSecret: '',
-    },
+    defaultValues || {
+      clientID: "",
+      clientSecret: "",
+    }
   );
 
-  const _onSubmit = event => {
-    event.preventDefault();
-    if (selectedValue) onSubmit(values);
-  };
-  const handleChange = event => {
+  const handleChange = (event) => {
     setValues({
       ...values,
       [event.target.name]: event.target.value,
     });
   };
 
+  const handleSubmit = () => {
+    onSubmit(values);
+  };
+
   return (
-    <form onSubmit={_onSubmit}>
-      <input value={values.clientId} onChange={handleChange} name="clientId" />
+    <div>
+      <input value={values.clientID} name="clientID" onChange={handleChange} />
       <input
         value={values.clientSecret}
-        onChange={handleChange}
-        name="clientSecret"
         type="password"
+        name="clientSecret"
+        onChange={handleChange}
       />
-      <Button title="Submit" />
-    </form>
+      <Button title="Submit" onClick={handleSubmit} />
+    </div>
   );
 }
