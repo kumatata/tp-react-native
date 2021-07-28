@@ -20,7 +20,6 @@ export default function List() {
           <ListItem item={item} onEdit={handleEditItem} />
         )}
       />
-      <Text>Total price: {totalPrice}</Text>
     </View>
   );
 }

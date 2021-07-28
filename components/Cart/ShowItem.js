@@ -8,9 +8,5 @@ export default function ShowItem() {
 
   const item = useMemo(() => getItem(parseInt(id)), [id, isReady]);
 
-  return (
-    <p>
-      {id} {item?.name}
-    </p>
-  );
+  return <p>{item?.name}</p>;
 }

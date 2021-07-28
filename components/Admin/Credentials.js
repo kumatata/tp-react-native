@@ -1,14 +1,14 @@
-import CredentialsForm from "./CredentialsForm";
-import { CredentialsContext } from "../../contexts/CredentialsContext";
-import React, { useContext } from "react";
+import CredentialsForm from './CredentialsForm';
+import {CredentialsContext} from '../../contexts/CredentialsContext';
+import React, {useContext} from 'react';
 
 export default function Credentials() {
-  const { token, save, decodedCredentials } = useContext(CredentialsContext);
+  const {token, save, decodedCredentials} = useContext(CredentialsContext);
   return (
     <>
       <CredentialsForm
         defaultValues={decodedCredentials}
-        onSubmit={(values) => save(values.clientID, values.clientSecret)}
+        onSubmit={values => save(values.clientID, values.clientSecret)}
       />
       <p>{token}</p>
     </>

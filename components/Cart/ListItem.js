@@ -15,6 +15,6 @@ export default function ListItem({item, onEdit}) {
         <Button title="edit" onClick={() => onEdit(item)} />
       </View>
     ),
-    [item],
+    [item, onEdit, deleteItem],
   );
 }
