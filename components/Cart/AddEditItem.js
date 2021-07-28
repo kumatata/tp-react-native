@@ -3,7 +3,7 @@ import {ListContext} from '../../contexts/ListContext';
 import Modal from '../lib/Modal';
 import Button from '../lib/Button';
 import Form from './Form';
-
+import {View} from 'react-native';
 export default function AddEditItem({selectedItem = false}) {
   const {editItem, addItem} = useContext(ListContext);
   const [modal, setModal] = useState(selectedItem);
@@ -20,11 +20,11 @@ export default function AddEditItem({selectedItem = false}) {
   };
 
   return (
-    <>
+    <View>
       <Button title="add" onClick={() => setModal(true)} />
-      <Modal title="Add product" open={modal} onClose={() => setModal(false)}>
+      <Modal title="Add new item" open={modal} onClose={() => setModal(false)}>
         <Form onSubmit={handleSubmit} defaultValues={modal !== true && modal} />
       </Modal>
-    </>
+    </View>
   );
 }

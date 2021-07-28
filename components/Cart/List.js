@@ -1,11 +1,11 @@
 import React, {useContext, useState} from 'react';
-import {View, FlatList, Text} from 'react-native';
+import {View, FlatList} from 'react-native';
 import {ListContext} from '../../contexts/ListContext';
 import ListItem from './ListItem';
 import AddEditItem from './AddEditItem';
 
 export default function List() {
-  const {list, totalPrice} = useContext(ListContext);
+  const {list} = useContext(ListContext);
   const [selectedItem, setSelectedItem] = useState();
 
   const handleEditItem = item => setSelectedItem(item);

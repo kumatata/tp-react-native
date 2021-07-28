@@ -6,8 +6,6 @@ export default function Form({onSubmit, defaultValues}) {
   const [values, setValues] = useState(
     defaultValues || {
       name: '',
-      unitPrice: 0,
-      quantity: 0,
     },
   );
 
@@ -25,21 +23,12 @@ export default function Form({onSubmit, defaultValues}) {
   return (
     <View>
       <TextInput
+        style={{backgroundColor: 'lightgrey'}}
         onChangeText={value => handleChange({target: {value, name: 'name'}})}
         value={values.name}
+        placeholder="type new item here"
       />
-      <TextInput
-        onChangeText={value =>
-          handleChange({target: {value, name: 'unitPrice'}})
-        }
-        value={values.unitPrice}
-      />
-      <TextInput
-        onChangeText={value =>
-          handleChange({target: {value, name: 'quantity'}})
-        }
-        value={values.quantity}
-      />
+
       <Button title="Submit" onClick={handleSubmit} />
     </View>
   );
