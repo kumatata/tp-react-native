@@ -1,5 +1,5 @@
 import React from 'react';
-import List from '../components/Cart/List';
+import List from '../components/Lists/List';
 import ListProvider from '../contexts/ListContext';
 
 function TaskListScreen() {
