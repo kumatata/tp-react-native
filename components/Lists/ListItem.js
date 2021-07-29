@@ -8,12 +8,12 @@ import Form from "./Form";
 export default function ListItem({item, selectedItem = false}) {
   const {deleteItem, editItem} = useContext(ListContext);
   const [modal, setModal] = useState(selectedItem);
+  console.log("coumba la meilleure")
 
   useEffect(() => setModal(selectedItem), [selectedItem]);
 
   const handleSubmit = (values) => {
     if (modal === true) editItem(values);
-    console.log(values)
     setModal(false);
   };
 

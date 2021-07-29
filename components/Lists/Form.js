@@ -2,9 +2,7 @@ import React, {useState} from 'react';
 import Button from '../lib/Button';
 import {TouchableHighlight, Text, View, TextInput} from 'react-native';
 const defaultV = {
-  name: '',
-  quantity: 0,
-  unitPrice: 0,
+  name: ''
 };
 
 export default function Form({onSubmit, item}) {
@@ -20,6 +18,7 @@ export default function Form({onSubmit, item}) {
   //  (value) => setValues({...values, 'foo': value})
 
   const handleChange = name => value => {
+  console.log("coumba la meilleure",name)
     setValues({
       ...values,
       [name]: value,
@@ -29,14 +28,6 @@ export default function Form({onSubmit, item}) {
   return (
     <View>
       <TextInput onChangeText={handleChange('name')} value={values.name} />
-      <TextInput
-        onChangeText={handleChange('quantity')}
-        value={values.quantity}
-      />
-      <TextInput
-        onChangeText={handleChange('unitPrice')}
-        value={values.unitPrice}
-      />
       <TouchableHighlight onClick={e => _onSubmit()}>
         <Text>Submit</Text>
       </TouchableHighlight>

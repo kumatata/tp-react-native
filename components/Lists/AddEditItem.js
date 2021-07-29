@@ -5,7 +5,7 @@ import Modal from "../lib/Modal";
 import Form from "./Form";
 
 export default function AddEditItem({ selectedItem = false }) {
-  const {addItem } = useContext(ListContext);
+  const { editItem, addItem } = useContext(ListContext);
 
   const [modal, setModal] = useState(selectedItem);
 
@@ -13,6 +13,7 @@ export default function AddEditItem({ selectedItem = false }) {
 
   const handleSubmit = (values) => {
     if (modal === true) addItem(values);
+    else editItem(values);
     setModal(false);
   };
 
