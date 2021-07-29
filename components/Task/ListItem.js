@@ -1,20 +1,28 @@
 import React, {useContext, useMemo} from 'react';
 import {ListContext} from '../../contexts/ListContext';
-import Button from '../lib/Button';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet, Button} from 'react-native';
 export default function ListItem({item, onEdit}) {
   const {deleteItem} = useContext(ListContext);
 
   return useMemo(
     () => (
-      <View>
-        <Text>
-          {item.name} {item.unitPrice} {item.quantity}
-        </Text>
-        <Button title="delete" onClick={() => deleteItem(item)} />
-        <Button title="edit" onClick={() => onEdit(item)} />
+      <View style={styles.fixToText}>
+        <Text>{item.name}</Text>
+        <View style={styles.btn}>
+          <Button title="delete" onPress={() => deleteItem(item)} color="red" />
+          <Button title="edit" onPress={() => onEdit(item)} />
+        </View>
       </View>
     ),
-    [item],
+    [item, onEdit, deleteItem],
   );
 }
+const styles = StyleSheet.create({
+  fixToText: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    margin: 10,
+  },
+});

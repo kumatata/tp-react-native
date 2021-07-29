@@ -1,44 +1,32 @@
-import React, {useState, useEffect} from 'react';
-import {SafeAreaView, StatusBar, View, Alert, Text} from 'react-native';
-import Button from './components/lib/Button';
-import Page from './components/Page';
-import Modal from './components/lib/Modal';
-// import ButtonGroup from './components/ButtonGroup';
+import React from 'react';
+import ShoppingListScreen from './screen/ShoppingListScreen';
+import TaskListScreen from './screen/TaskListScreen';
+
+import HomeScreen from './screen/HomeScreen';
 import ListProvider from './contexts/ListContext';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
+const Stack = createStackNavigator();
 function App() {
-  //   const [theme, setTheme] = useState('dark');
-  const [modal, setModal] = useState(false);
-  const [todoItems, setTodoItems] = useState([{text: "Buy groceries", completed: true}, {text: "Make blogpost", completed: false}]);
-
-
-  useEffect(() => {
-    console.log('did mount');
-    return () => {
-      console.log('will unmount');
-    };
-  }, []);
-
-  //   useEffect(() => {
-  //     console.log('did update ' + theme);
-
-  //     return () => {
-  //       console.log('will update ' + theme);
-  //     };
-  //   }, [theme]);
-
   return (
-    <SafeAreaView>
-      <StatusBar barStyle={"light-content"} backgroundColor={"#212121"} />
-      <View style={{padding: 16}}>
-        {/* <ThemeProvider> */}
-        {/* <ButtonGroup /> */}
-          <ListProvider>
-            <Page />
-          </ListProvider>
-        {/* </ThemeProvider> */}
-      </View>
-    </SafeAreaView>
+    <NavigationContainer>
+      <ListProvider>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen
+            options={{title: 'Shopping List'}}
+            name="ShoppingListScreen"
+            component={ShoppingListScreen}
+          />
+          <Stack.Screen
+            options={{title: 'Task List'}}
+            name="TaskListScreen"
+            component={TaskListScreen}
+          />
+        </Stack.Navigator>
+      </ListProvider>
+    </NavigationContainer>
   );
 }
 

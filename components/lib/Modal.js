@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -8,13 +8,6 @@ import {
 } from 'react-native';
 
 export default function Modal({title, children, open, onClose}) {
-  useEffect(() => {
-    console.log('did mount');
-    return () => {
-      console.log('will unmount');
-    };
-  }, []);
-
   return (
     <RNModal
       animationType="slide"
@@ -23,12 +16,12 @@ export default function Modal({title, children, open, onClose}) {
       onRequestClose={onClose}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>{title}</Text>
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={onClose}>
-            <Text style={styles.textStyle}>CLOSE</Text>
+            <Text style={styles.textStyle}>X</Text>
           </Pressable>
+          <Text style={styles.modalText}>{title}</Text>
           <View>{children}</View>
         </View>
       </View>
@@ -45,6 +38,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
+    width: 400,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
@@ -67,6 +61,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F194FF',
   },
   buttonClose: {
+    alignSelf: 'flex-end',
     backgroundColor: '#2196F3',
   },
   textStyle: {
