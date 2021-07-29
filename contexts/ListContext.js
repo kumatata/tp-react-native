@@ -29,10 +29,10 @@ export default function ListProvider({ children }) {
   );
   const addItem = useCallback((item) => setList([...list, item]), [list]);
 
-  const totalPrice = useMemo(
-    () => list.reduce((acc, item) => acc + item.unitPrice * item.quantity, 0),
-    [list]
-  );
+  // const totalPrice = useMemo(
+  //   () => list.reduce((acc, item) => acc + item.unitPrice * item.quantity, 0),
+  //   [list]
+  // );
 
   const getItem = useCallback((id) => list.find((it) => it.id === id), [list]);
 
@@ -40,7 +40,6 @@ export default function ListProvider({ children }) {
     <ListContext.Provider
       value={{
         list,
-        totalPrice,
         deleteItem,
         editItem,
         addItem,

@@ -5,7 +5,7 @@ import ListItem from './ListItem';
 import AddEditItem from './AddEditItem';
 
 export default function List() {
-  const {list, totalPrice} = useContext(ListContext);
+  const {list} = useContext(ListContext);
   const [selectedItem, setSelectedItem] = useState();
 
   const handleEditItem = item => setSelectedItem(item);
@@ -17,10 +17,9 @@ export default function List() {
         data={list}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
-          <ListItem item={item} onEdit={handleEditItem} />
+          <ListItem item={item} onEdit={handleEditItem}/>
         )}
       />
-      <Text>Total price: {totalPrice}</Text>
     </View>
   );
 }

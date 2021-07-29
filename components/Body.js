@@ -1,5 +1,5 @@
 import React from 'react';
-import List from './Cart/List';
+import List from './Shopping/List';
 import ListProvider from '../contexts/ListContext';
 
 function Body() {

@@ -4,13 +4,13 @@ import Button from './components/lib/Button';
 import Page from './components/Page';
 import Modal from './components/lib/Modal';
 // import ButtonGroup from './components/ButtonGroup';
-import CredentialsProvider from './contexts/CredentialsContext';
 import ListProvider from './contexts/ListContext';
-let mount = false;
 
 function App() {
   //   const [theme, setTheme] = useState('dark');
   const [modal, setModal] = useState(false);
+  const [todoItems, setTodoItems] = useState([{text: "Buy groceries", completed: true}, {text: "Make blogpost", completed: false}]);
+
 
   useEffect(() => {
     console.log('did mount');
@@ -29,26 +29,13 @@ function App() {
 
   return (
     <SafeAreaView>
-      <StatusBar />
-      <View>
+      <StatusBar barStyle={"light-content"} backgroundColor={"#212121"} />
+      <View style={{padding: 16}}>
         {/* <ThemeProvider> */}
         {/* <ButtonGroup /> */}
-        <CredentialsProvider>
           <ListProvider>
             <Page />
           </ListProvider>
-        </CredentialsProvider>
-
-        <Button onClick={() => setModal(true)} title="open modal" />
-        {modal && (
-          <Modal
-            title={'Mon titre'}
-            open={true}
-            onClose={() => Alert.prompt('Closing modal') && setModal(false)}>
-            <Text>Ma description</Text>
-            <Text>Google</Text>
-          </Modal>
-        )}
         {/* </ThemeProvider> */}
       </View>
     </SafeAreaView>
